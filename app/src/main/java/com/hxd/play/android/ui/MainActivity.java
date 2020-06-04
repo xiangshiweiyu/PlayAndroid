@@ -1,8 +1,10 @@
-package com.hxd.play.android;
+package com.hxd.play.android.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.hxd.play.android.R;
 
 public class MainActivity extends AppCompatActivity {
 

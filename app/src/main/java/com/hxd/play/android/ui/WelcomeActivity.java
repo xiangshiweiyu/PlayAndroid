@@ -1,4 +1,4 @@
-package com.hxd.play.android;
+package com.hxd.play.android.ui;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.hxd.play.android.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,27 +29,34 @@ public class WelcomeActivity extends AppCompatActivity {
     @BindView(R.id.cl_welcome)
     ConstraintLayout clWelcome;
 
-    private Unbinder mUnbinder;
-    private ValueAnimator colorAnim;
+    private Unbinder mUnBinder;
+    private ValueAnimator mColorAnim;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        mUnbinder = ButterKnife.bind(this);
+        mUnBinder = ButterKnife.bind(this);
 
 
-        colorAnim = ObjectAnimator.ofInt(clWelcome, "backgroundColor", Color.RED, Color.BLUE);
-        colorAnim.setDuration(1200);
-        colorAnim.setEvaluator(new ArgbEvaluator());
-        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
-        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
-        colorAnim.start();
+        mColorAnim = ObjectAnimator.ofInt(clWelcome, "backgroundColor", Color.RED, Color.BLUE);
+        mColorAnim.setDuration(1200);
+        mColorAnim.setEvaluator(new ArgbEvaluator());
+        mColorAnim.setRepeatCount(ValueAnimator.INFINITE);
+        mColorAnim.setRepeatMode(ValueAnimator.REVERSE);
+        mColorAnim.start();
 
         Glide.with(this).load(R.mipmap.img_welcome).into(ivWelcome);
 
         mHandler.postDelayed(() -> mHandler.sendEmptyMessage(0), 1202);
+
+        //        mHandler.postDelayed(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                mHandler.sendEmptyMessage(0);
+        //            }
+        //        }, 1200);
     }
 
 
@@ -67,13 +75,19 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-            mUnbinder = null;
+
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+            mUnBinder = null;
         }
 
-        if (colorAnim != null && (colorAnim.isRunning() || colorAnim.isStarted())) {
-            colorAnim.cancel();
+        if (mColorAnim != null && (mColorAnim.isRunning() || mColorAnim.isStarted())) {
+            mColorAnim.cancel();
+        }
+
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
         }
     }
 }
